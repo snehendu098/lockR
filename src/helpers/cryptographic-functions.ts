@@ -36,11 +36,33 @@ export async function generateRandomKeypair(): Promise<EdDSAKeypair> {
   }
 }
 
-// Example usage:
 export async function generateNewKeypair() {
   const keypair = await generateRandomKeypair();
   console.log("Private Key:", keypair.privateKey);
   console.log("Public Key X:", keypair.publicKey.x);
   console.log("Public Key Y:", keypair.publicKey.y);
   return keypair;
+}
+
+export function convertToHexPublicKey(xArray: string, yArray: string): string {
+  // Convert number arrays to buffers and concatenate
+  const xBuffer = Buffer.from(xArray.split(",").map((item) => Number(item)));
+  const yBuffer = Buffer.from(yArray.split(",").map((item) => Number(item)));
+  const concatenated = Buffer.concat([xBuffer, yBuffer]);
+
+  // Convert to hex string with 0x prefix
+  return "0x" + concatenated.toString("hex");
+}
+
+export function shortenHexString(xArray: string, yArray: string): string {
+  const hexString = convertToHexPublicKey(xArray, yArray);
+
+  if (!hexString.startsWith("0x")) {
+    throw new Error("String must start with 0x");
+  }
+
+  const start = hexString.slice(0, 4); // Take '0x' plus 2 chars
+  const end = hexString.slice(-4); // Take last 3 chars
+
+  return `${start}....${end}`;
 }

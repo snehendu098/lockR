@@ -1,35 +1,23 @@
-import { generateNewKeypair } from "@/helpers/cryptographic-functions";
-import { IKeypair } from "@/interfaces";
+import { getKeypairsByAddress } from "@/helpers/db-functions";
 import dbConnect from "@/lib/db-connect";
-import KeypairModel from "@/models/keypair.model";
 
 export async function POST(req: Request) {
   try {
     await dbConnect();
-    const { address, label }: IKeypair = await req.json();
-    const keypair = await generateNewKeypair();
+    const { address }: { address: string } = await req.json();
+    console.log(address);
 
-    const dbKeypair = new KeypairModel({
-      address,
-      label,
-      privateKey: keypair.privateKey,
-      publicKey: keypair.publicKey,
-    });
+    const keys = await getKeypairsByAddress(address);
 
-    await dbKeypair.save();
-    if (!dbKeypair) {
+    if (!keys) {
       return Response.json(
-        { success: false, message: "Error Creating new Keypair" },
+        { success: false, message: "Key couldn't be accessed" },
         { status: 400 }
       );
     }
 
     return Response.json(
-      {
-        success: true,
-        message: "Keypair Created Successfully",
-        data: dbKeypair,
-      },
+      { success: true, message: "Keys fetched successfully", data: keys },
       { status: 201 }
     );
   } catch (err: any) {

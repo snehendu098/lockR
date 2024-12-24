@@ -2,19 +2,21 @@ import dbConnect from "@/lib/db-connect";
 import KeypairModel from "@/models/keypair.model";
 import mongoose from "mongoose";
 
-export const GET = async (
-  _req: Request,
+export const POST = async (
+  req: Request,
   { params }: { params: { id: string } }
 ) => {
   try {
     await dbConnect();
     const { id } = await params;
+    const { owner } = await req.json();
 
     const data = await KeypairModel.aggregate([
       // Match the specific keypair
       {
         $match: {
           _id: new mongoose.Types.ObjectId(id),
+          address: owner,
         },
       },
 

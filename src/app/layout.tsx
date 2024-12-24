@@ -3,6 +3,7 @@ import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { WalletProviders } from "@/components/core/wallet-providers";
 import "@rainbow-me/rainbowkit/styles.css";
+import { Toaster } from "@/components/ui/toaster";
 
 const jetBrains = JetBrains_Mono({
   subsets: ["latin"],
@@ -22,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${jetBrains.className} antialiased`}>
+        <Toaster />
         <WalletProviders>{children}</WalletProviders>
       </body>
     </html>

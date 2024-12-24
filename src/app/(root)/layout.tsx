@@ -7,7 +7,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const account = useAccount();
 
   return (
-    <div className="min-h-screen bg-yellow-100 p-6">
+    <div className="min-h-screen bg-yellow-100 font-mono p-6">
       {account.address && <>{children}</>}
       {!account.address && (
         <div className="max-w-7xl mx-auto min-h-screen flex flex-col items-center">

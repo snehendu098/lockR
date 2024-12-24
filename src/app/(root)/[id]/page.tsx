@@ -9,17 +9,37 @@ import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Header from "@/components/core/header";
+import { toast } from "@/hooks/use-toast";
+import axios from "axios";
+import { useAccount } from "wagmi";
 
-export default function LockR() {
+export default function LockR({ params }: { params: { id: string } }) {
   const [message, setMessage] = useState("");
   const [showPrivateKey, setShowPrivateKey] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const account = useAccount();
+  const [keyData, setKeyData] = useState<any>();
+
+  const fetchData = async () => {
+    try {
+      const { data } = await axios.post(`/api/key/${params.id}`, {
+        owner: account.address,
+      });
+    } catch (err) {
+      console.log(err);
+      toast({
+        title: "Error Occurred",
+        description: "Error fetching documents related to key",
+      });
+    }
+  };
 
   return (
     <>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <Header>
-          <Button>Go Back</Button>
+          <></>
         </Header>
 
         {/* Key Information */}
@@ -32,9 +52,7 @@ export default function LockR() {
           <div className="space-y-1">
             <p className="font-mono">
               Public Key:
-              <span className="bg-amber-200 px-2 py-1  rounded-md">
-                2ju4830hfue834jsi940j
-              </span>
+              <span className="bg-amber-200 px-2 py-1  rounded-md"></span>
             </p>
             <div className="flex items-center space-x-2">
               <p className="font-mono ">

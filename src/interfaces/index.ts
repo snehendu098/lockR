@@ -1,5 +1,5 @@
 export interface IKeypair {
-  publicKey: Object;
+  publicKey: { x: string; y: string };
   privateKey: string;
   label?: string;
   lastUsed?: Date;
