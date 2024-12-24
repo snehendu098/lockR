@@ -9,12 +9,11 @@ export interface IKeypairDocument extends IKeypair, Document {
 const KeypairSchema = new Schema<IKeypairDocument>(
   {
     publicKey: {
-      type: String,
+      type: Object,
       required: [true, "Public key is required"],
       unique: true,
-      trim: true,
     },
-    encryptedPrivateKey: {
+    privateKey: {
       type: String,
       required: [true, "Encrypted private key is required"],
       trim: true,
@@ -44,7 +43,6 @@ const KeypairSchema = new Schema<IKeypairDocument>(
 
 // Add indexes
 KeypairSchema.index({ address: 1 });
-KeypairSchema.index({ publicKey: 1 });
 
 // Create and export the model
 const KeypairModel =

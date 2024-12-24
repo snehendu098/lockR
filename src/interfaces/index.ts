@@ -1,6 +1,6 @@
 export interface IKeypair {
-  publicKey: string;
-  encryptedPrivateKey: string;
+  publicKey: Object;
+  privateKey: string;
   label?: string;
   lastUsed?: Date;
   status: "active" | "inactive";
@@ -9,7 +9,7 @@ export interface IKeypair {
 
 export interface IMessage {
   keypairId: string;
-  pollId: number;
   timestamp: Date;
   signedMessage: string;
+  identifier: string;
 }

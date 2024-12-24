@@ -1,5 +1,6 @@
 "use client";
 
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { FileKey2 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -13,7 +14,10 @@ const Header = ({ children }: { children: React.ReactNode }) => {
           <p>lockR</p>
         </div>
       </Link>
-      {children}
+      <div className="flex items-center space-x-4">
+        {children}
+        <ConnectButton />
+      </div>
     </div>
   );
 };

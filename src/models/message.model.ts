@@ -8,16 +8,16 @@ export interface IMessageDocument extends IMessage, Document {
 }
 
 // Define the schema
-const VoteSchema = new Schema<IMessageDocument>(
+const MessageSchema = new Schema<IMessageDocument>(
   {
     keypairId: {
       type: String,
       required: [true, "Keypair ID is required"],
       trim: true,
-      ref: "Keypair", // Reference to Keypair model
+      ref: "Keypair",
     },
-    pollId: {
-      type: Number,
+    identifier: {
+      type: String,
       required: [true, "Poll ID is required"],
     },
     timestamp: {
@@ -37,13 +37,12 @@ const VoteSchema = new Schema<IMessageDocument>(
 );
 
 // Add indexes for common queries
-VoteSchema.index({ keypairId: 1 });
-VoteSchema.index({ pollId: 1 });
-VoteSchema.index({ timestamp: 1 });
+MessageSchema.index({ keypairId: 1 });
+MessageSchema.index({ timestamp: 1 });
 
 // Create and export the model
-const VoteModel =
+const MessageModel =
   (mongoose.models.Message as Model<IMessageDocument>) ||
-  mongoose.model<IMessageDocument>("Message", VoteSchema);
+  mongoose.model<IMessageDocument>("Message", MessageSchema);
 
-export default VoteModel;
+export default MessageModel;
