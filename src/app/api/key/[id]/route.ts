@@ -4,12 +4,11 @@ import mongoose from "mongoose";
 
 export const GET = async (
   _req: Request,
-  res: Response,
   { params }: { params: { id: string } }
 ) => {
   try {
     await dbConnect();
-    const { id } = params;
+    const { id } = await params;
 
     const data = await KeypairModel.aggregate([
       // Match the specific keypair
