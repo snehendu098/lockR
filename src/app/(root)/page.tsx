@@ -148,7 +148,7 @@ export default function Home() {
         </Header>
 
         {loading && !dialogOpen ? (
-          <Exception>Create a New Key to get started</Exception>
+          <Exception>Loading your connected keys</Exception>
         ) : (
           <>
             {keys.length > 0 ? (
