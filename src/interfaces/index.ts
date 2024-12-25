@@ -13,3 +13,18 @@ export interface IMessage {
   signedMessage: string;
   identifier: string;
 }
+
+export interface SignMessageParams {
+  privKey: string;
+  message: string;
+}
+
+export interface EdDSAPublicKey {
+  x: string;
+  y: string;
+}
+
+export interface EdDSAKeypair {
+  publicKey: EdDSAPublicKey;
+  privateKey: string;
+}

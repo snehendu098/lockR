@@ -12,7 +12,10 @@ import Header from "@/components/core/header";
 import { toast } from "@/hooks/use-toast";
 import axios from "axios";
 import { useAccount } from "wagmi";
-import { shortenHexString } from "@/helpers/cryptographic-functions";
+import {
+  shortenHexString,
+  shortenPrivateKey,
+} from "@/helpers/cryptographic-functions";
 import Exception from "@/components/core/exception-handler";
 
 export default function LockR({ params }: any) {
@@ -74,20 +77,26 @@ export default function LockR({ params }: any) {
                   key 1
                 </Badge>
               </div>
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <p className="font-mono">
                   Public Key:
                   <span className="bg-amber-200 px-2 py-1  rounded-md">
                     {shortenHexString(keyData.publicKey.x, keyData.publicKey.y)}
                   </span>
                 </p>
+                <div className="bg-gray-800 rounded-md shadow-sm text-white p-4">
+                  <p className="font-mono">
+                    Public Key X: [{keyData.publicKey.x}]
+                  </p>
+                  <p>Public key Y: [{keyData.publicKey.y}]</p>
+                </div>
                 <div className="flex items-center space-x-2">
                   <p className="font-mono ">
                     Private Key:{" "}
                     <span className="bg-amber-200 px-2 py-1  rounded-md">
-                      {showPrivateKey
-                        ? "48uhruhe8494huhhhhue90j"
-                        : "48•••••••e90j"}
+                      {!showPrivateKey
+                        ? shortenPrivateKey(keyData.privateKey)
+                        : keyData.privateKey}
                     </span>
                   </p>
                   <Button
@@ -135,7 +144,7 @@ export default function LockR({ params }: any) {
                 <div className="rounded-lg overflow-hidden border border-gray-200">
                   <Editor
                     height="400px"
-                    defaultLanguage="json"
+                    defaultLanguage="plaintext"
                     theme="vs-dark"
                     value={message}
                     onChange={(value) => setMessage(value || "")}
